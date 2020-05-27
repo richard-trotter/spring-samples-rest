@@ -1,0 +1,36 @@
+
+server:
+  port: 8081
+  servlet:
+    context-path: /demo
+  tomcat:
+    basedir: ${user.dir}/tomcat-runtime
+    accesslog:
+       enabled: true
+
+management:
+  server:
+    port: 9001
+    servlet:
+      context-path: /demo
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: '*'
+        
+demo:
+  api:
+    prefix: /api/v1
+  auth:
+    jwt:
+      issuer: http://example.com/authorization
+
+# This key should properly be present in the runtime env, and location specified as
+# a runtime (command line) parameter. 
+spring:
+   security:
+     oauth2:
+       resourceserver:
+         jwt:
+           public-key-location: classpath:/public_key.der

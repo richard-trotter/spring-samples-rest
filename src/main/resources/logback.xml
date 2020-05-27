@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<!--
+		Standard logging configuration 
+	-->
+	
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d [%thread] %-5level %logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="com.base22" level="TRACE" />
+
+	<root level="info">
+		<appender-ref ref="STDOUT" />
+	</root>
+
+
+	<!-- 
+		Audit logging configuration 
+	-->
+	
+	<appender name="FILE-AUDIT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+		<file>${demo.audit.log.home}/demo-audit.log</file>
+
+		<encoder>
+			<pattern>%d AUDIT - %mdc{principal:-anonymous} - %msg%n</pattern>
+		</encoder>
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>${demo.audit.log.home}/demo-audit-.%d{yyyy-MM-dd}.log</fileNamePattern>
+		</rollingPolicy>
+
+	</appender>
+
+	<logger name="demo.audit.logger" level="info" additivity="false">
+		<appender-ref ref="FILE-AUDIT" />
+	</logger>
+
+</configuration>
